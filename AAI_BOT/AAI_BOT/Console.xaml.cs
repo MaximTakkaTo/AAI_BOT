@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace AAI_BOT
 {
@@ -23,55 +14,50 @@ namespace AAI_BOT
         public Console()
         {
             InitializeComponent();
+        
+            for(int i = 0; i < tb.Length;i++ )
+            {
+                lab[i] = new Label();
+                tb[i] = new TextBox();
+                lab[i].Foreground = Brushes.Lime;
+                lab[i].FontFamily = new FontFamily("Consolas");
+                lab[i].FontSize = 14;
+                lab[i].Margin = new Thickness(0, 0, 0, 0);
 
-            lab[k] = new Label();
+                tb[i].Foreground = Brushes.Lime;
+                tb[i].Background = Brushes.Black;
+                tb[i].BorderThickness = new Thickness(0);
+                tb[i].FontSize = 14;
+                tb[i].FontFamily = new FontFamily("Consolas");
+            }
+
             scroll.Children.Add(lab[k]);
-            lab[k].Margin = new Thickness(0, 0, 0, 0);
-            lab[k].Foreground = Brushes.Lime;
-            lab[k].FontFamily = new FontFamily("Lucida Console");
-            lab[k].FontSize = 12;
-            lab[k].Content = "Хорошая работа, Олег!";
-
-            tb[k] = new TextBox();
-            scroll.Children.Add(tb[k]);
-            tb[k].Foreground = Brushes.Lime;
-            tb[k].Background = Brushes.Black;
-            tb[k].FontSize = 16;
-            tb[k].BorderThickness = new Thickness(0);
-            tb[k].FontFamily = new FontFamily("Lucida Console");
-            tb[k].Margin = new Thickness(lab[k].Content.ToString().Length * 6.5d, 5, 0, 0);
-            tb[k].Focus();
-            tb[k].KeyDown += new KeyEventHandler(Press);
-
+            lab[k].Content = "AI BOT PASHA - HUESOS";
+            NextTb();
         }
 
         private void Press(object sender, KeyEventArgs e)
         {
             var str = tb[k].Text.Replace(" ", "");
             if (e.Key == Key.Enter && str != "")
-            {
-                tb[k].IsReadOnly = true;
-                k++;
+                NextTb();
+        }
+        
+        private void NextTb()
+        {
+            tb[k].IsReadOnly = true;
+            k++;
+            scroll.Children.Add(lab[k]);
+            if(k == 1)
+                lab[k].Margin = new Thickness(0, 25, 0, 0);
+            else
+                lab[k].Margin = new Thickness(0, 15 * k + 10, 0, 0);
 
-                lab[k] = new Label();
-                scroll.Children.Add(lab[k]);
-                lab[k].Margin = new Thickness(0, 15 * k, 0, 0);
-                lab[k].Foreground = Brushes.Lime;
-                lab[k].Content = "Хорошая работа, Олег!";
-                lab[k].FontFamily = new FontFamily("Lucida Console");
-                lab[k].FontSize = 12;
-
-                tb[k] = new TextBox();
-                scroll.Children.Add(tb[k]);
-                tb[k].Margin = new Thickness(lab[k].Content.ToString().Length * 6.5d + 15, 15 * k + 5, 0, 0);
-                tb[k].FontFamily = new FontFamily("Lucida Console");
-                tb[k].Foreground = Brushes.Lime;
-                tb[k].Background = Brushes.Black;
-                tb[k].FontSize = 12;
-                tb[k].BorderThickness = new Thickness(0);
-                tb[k].Focus();
-                tb[k].KeyDown += new KeyEventHandler(Press);
-            }
+            lab[k].Content = "Хорошая работа, Олег!>";
+            scroll.Children.Add(tb[k]);
+            tb[k].Margin = new Thickness(lab[k].Content.ToString().Length * 6.5d + 31,15 * k + 15, 0, 0);
+            tb[k].Focus();
+            tb[k].KeyDown += Press;
         }
     }
 }
