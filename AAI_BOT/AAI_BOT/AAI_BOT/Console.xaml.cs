@@ -10,6 +10,12 @@ namespace AAI_BOT
         public TextBox[] tb = new TextBox[25];
         public Label[] lab = new Label[25];
         int k = 0;
+        int log = 0;
+
+        public string[] codes = new string[5] { "", "admin", "admin", "Pasha", "Oleg" };
+        public string[] mess = new string[5] { "AI BOT HAS ACTIVATED", "LOGIN>", "PASSWORD>", "GOD.NAME>", "RETARD.NAME>" };
+
+        string errMess = "WRONG! PLEASE REPEAT.";
 
         public Console()
         {
@@ -32,7 +38,8 @@ namespace AAI_BOT
             }
 
             scroll.Children.Add(lab[k]);
-            lab[k].Content = "AI BOT PASHA - HUESOS";
+            lab[k].Content = mess[k];
+            lab[k].HorizontalAlignment = HorizontalAlignment.Center;
             NextTb();
         }
 
@@ -40,7 +47,22 @@ namespace AAI_BOT
         {
             var str = tb[k].Text.Replace(" ", "");
             if (e.Key == Key.Enter && str != "")
-                NextTb();
+                if (str == codes[k-log].ToLower())
+                {
+                    NextTb();
+                }
+                else
+                {
+                    log++;
+                    Label err = new Label();
+                    scroll.Children.Add(err);
+                    err.Foreground = Brushes.Red;
+                    err.FontFamily = new FontFamily("Consolas");
+                    err.Content = errMess;
+                    err.FontSize = 14;
+                    err.Margin = new Thickness(0, tb[k].Margin.Top + 10, 0, 0);
+                    NextTb();
+                }
         }
         
         private void NextTb()
@@ -51,11 +73,12 @@ namespace AAI_BOT
             if(k == 1)
                 lab[k].Margin = new Thickness(0, 25, 0, 0);
             else
-                lab[k].Margin = new Thickness(0, 15 * k + 10, 0, 0);
+                lab[k].Margin = new Thickness(0, 15 * (k + log) + 10, 0, 0);
 
-            lab[k].Content = "Хорошая работа, Олег!>";
+            lab[k].Content = mess[k - log];
             scroll.Children.Add(tb[k]);
-            tb[k].Margin = new Thickness(lab[k].Content.ToString().Length * 6.5d + 31,15 * k + 15, 0, 0);
+            lab[k].Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            tb[k].Margin = new Thickness(lab[k].DesiredSize.Width - 5, 15 * (k + log) + 15, 0, 0);
             tb[k].Focus();
             tb[k].KeyDown += Press;
         }
