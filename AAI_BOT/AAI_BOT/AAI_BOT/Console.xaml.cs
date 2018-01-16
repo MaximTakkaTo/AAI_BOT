@@ -47,22 +47,28 @@ namespace AAI_BOT
         {
             var str = tb[k].Text.Replace(" ", "");
             if (e.Key == Key.Enter && str != "")
-                if (str == codes[k-log].ToLower())
-                {
-                    NextTb();
-                }
-                else
-                {
-                    log++;
-                    Label err = new Label();
-                    scroll.Children.Add(err);
-                    err.Foreground = Brushes.Red;
-                    err.FontFamily = new FontFamily("Consolas");
-                    err.Content = errMess;
-                    err.FontSize = 14;
-                    err.Margin = new Thickness(0, tb[k].Margin.Top + 10, 0, 0);
-                    NextTb();
-                }
+                    if (str.ToLower() == codes[k - log].ToLower())
+                    {
+                        if ((k - log + 1) != codes.Length)
+                            NextTb();
+                        else
+                        {
+                            MessageBox.Show("BOT ACTIVATED");
+                            tb[k].IsReadOnly = true;
+                        }
+                    }
+                    else
+                    {
+                        log++;
+                        Label err = new Label();
+                        scroll.Children.Add(err);
+                        err.Foreground = Brushes.Red;
+                        err.FontFamily = new FontFamily("Consolas");
+                        err.Content = errMess;
+                        err.FontSize = 14;
+                        err.Margin = new Thickness(0, tb[k].Margin.Top + 10, 0, 0);
+                        NextTb();
+                    }
         }
         
         private void NextTb()
