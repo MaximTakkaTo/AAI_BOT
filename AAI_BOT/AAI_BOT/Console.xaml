@@ -6,9 +6,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" Background="Black" Topmost="True" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" x:Name="view">
             <Grid Name="scroll" >
             </Grid>
         </ScrollViewer>
+        
     </Grid>
 </Window>
