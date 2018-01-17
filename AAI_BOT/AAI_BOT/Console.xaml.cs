@@ -15,15 +15,16 @@ namespace AAI_BOT
         bool f1 = false;
         int cls;
 
-        public string[] codes = new string[6] { "", "admin", "admin","" , "Pasha", "Oleg" };
-        public string[] mess = new string[6] { "AI BOT HAS ACTIVATED", "LOGIN>", "PASSWORD>", "                                                                                                                                                   ", "GOD.NAME>", "RETARD.NAME>" };
+        public string[] codes = new string[7] { "", "admin", "admin", "", "", "Pasha", "Oleg" };
+        public string[] mess = new string[7] { "AI BOT HAS ACTIVATED", "LOGIN>", "PASSWORD>", "                    ", "Welcome to the technical terminal of AI BOT of SCHOOL 38", "GOD.NAME>", "RETARD.NAME>" };
 
         string errMess = "WRONG! PLEASE REPEAT.";
         public Console()
         {
             InitializeComponent();
-        
-            for(int i = 0; i < tb.Length;i++ )
+
+            view.Cursor = Cursors.None;
+            for(int i = 0; i < tb.Length;i++)
             {
                 lab[i] = new Label();
                 tb[i] = new TextBox();
@@ -31,12 +32,14 @@ namespace AAI_BOT
                 lab[i].FontFamily = new FontFamily("Consolas");
                 lab[i].FontSize = 14;
                 lab[i].Margin = new Thickness(0, 0, 0, 0);
+                lab[i].Cursor = Cursors.None;
 
                 tb[i].Foreground = Brushes.Lime;
                 tb[i].Background = Brushes.Black;
                 tb[i].BorderThickness = new Thickness(0);
                 tb[i].FontSize = 14;
                 tb[i].FontFamily = new FontFamily("Consolas");
+                tb[i].Cursor = Cursors.None;
             }
 
             scroll.Children.Add(lab[k]);
@@ -54,7 +57,7 @@ namespace AAI_BOT
         {
             f1 = false;
             var str = tb[k].Text.Replace(" ", "");
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter && str != "")
             {
                 if ((k - log) == 1 || (k - log) == 2 && (k - log) != 3)
                 {
@@ -80,14 +83,31 @@ namespace AAI_BOT
                     Eror(errMess);
                 if (k - log == 3)
                 {
+                    Label kak = new Label();
+                    kak.Content = "Loading ";
+                    scroll.Children.Add(kak);
+                    kak.Foreground = Brushes.Lime;
+                    kak.FontFamily = new FontFamily("Consolas");
+                    kak.FontSize = 14;
+                    kak.Margin = new Thickness(0, lab[k].Margin.Top, 0, 0);
                     lab[k - log].Content = "Loading ";
+                    tb[k].KeyDown -= Press;
+                    tb[k].IsReadOnly = true;
                     for (int i = 0; i < 7; i++)
                     {
-                        lab[k - log].Content += ". ";
+                        kak.Content += ". ";
                         await Pause();
                     }
                     clscr();
                     NextTb();
+                }
+                if(k - log == 4)
+                {
+                    lab[k].HorizontalAlignment = HorizontalAlignment.Center;
+                    tb[k].HorizontalAlignment = HorizontalAlignment.Center;
+                    NextTb();
+                    lab[k].Margin = new Thickness(0, 25, 0, 0);
+                    tb[k].Margin = new Thickness(lab[k].DesiredSize.Width - 5, 30, 0, 0);
                 }
             }
         }
