@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace AAI_BOT
 {
@@ -14,9 +16,12 @@ namespace AAI_BOT
         int log = 0;
         bool f1 = false;
         int cls;
+        string time,report;
 
-        public string[] codes = new string[7] { "", "admin", "admin", "", "", "Pasha", "Oleg" };
-        public string[] mess = new string[7] { "AI BOT HAS ACTIVATED", "LOGIN>", "PASSWORD>", "                    ", "Welcome to the technical terminal of AI BOT of SCHOOL 38", "GOD.NAME>", "RETARD.NAME>" };
+        public string[] codes = new string[10] { "", "admin", "admin", "", "", "", "/status", "1", "2","4"};
+        public string[] mess = new string[10] { "AI BOT HAS ACTIVATED", "LOGIN>", "PASSWORD>", "", "Welcome to the technical terminal of AI BOT of SCHOOL 38", "In this terminal you can find out the status of the bot and get to the main terminal of the bot.(Use /status)", "38school@AI_BOT>","", "Status Report, ПОЛОМКА ОБНАРУЖЕНА ,СУКА ХУЙ", "38school@AI_BOT>" };
+
+
 
         string errMess = "WRONG! PLEASE REPEAT.";
         public Console()
@@ -50,16 +55,18 @@ namespace AAI_BOT
 
         async Task Pause()
         {
-            await Task.Delay(500);
+            await Task.Delay(100);
         }
 
         private async void Press(object sender, KeyEventArgs e)
         {
+            System.Console.WriteLine(k - log);
+            Time();
             f1 = false;
             var str = tb[k].Text.Replace(" ", "");
             if (e.Key == Key.Enter && str != "")
             {
-                if ((k - log) == 1 || (k - log) == 2 && (k - log) != 3)
+                if (((k - log) == 1 || (k - log) == 2) | (k - log) != 7)
                 {
                     if (str == codes[k - log])
                     { 
@@ -74,13 +81,21 @@ namespace AAI_BOT
                     if (str.ToLower() == codes[k - log].ToLower())
                     {
                         NextTb();
-                        f1 = false;
+                        f1 = false;       
                     }
                     else
                         f1 = true;
                 }
                 if (f1)
-                    Eror(errMess);
+                {
+                    if (k - log == 6)
+                    {
+                        Eror("An error or breakdown was detected in the bot.Only the /status command is available");
+                    }   
+                    else
+                        Eror(errMess);
+                }
+
                 if (k - log == 3)
                 {
                     Label kak = new Label();
@@ -90,7 +105,6 @@ namespace AAI_BOT
                     kak.FontFamily = new FontFamily("Consolas");
                     kak.FontSize = 14;
                     kak.Margin = new Thickness(0, lab[k].Margin.Top, 0, 0);
-                    lab[k - log].Content = "Loading ";
                     tb[k].KeyDown -= Press;
                     tb[k].IsReadOnly = true;
                     for (int i = 0; i < 7; i++)
@@ -106,8 +120,35 @@ namespace AAI_BOT
                     lab[k].HorizontalAlignment = HorizontalAlignment.Center;
                     tb[k].HorizontalAlignment = HorizontalAlignment.Center;
                     NextTb();
+                    lab[k].HorizontalAlignment = HorizontalAlignment.Center;
+                    tb[k].HorizontalAlignment = HorizontalAlignment.Center;
+                    NextTb();
                     lab[k].Margin = new Thickness(0, 25, 0, 0);
                     tb[k].Margin = new Thickness(lab[k].DesiredSize.Width - 5, 30, 0, 0);
+                }
+                if (k - log == 7)
+                {
+                    mess[8] = report + ":\n" + "ОБНАРУЖЕНА ПОЛОМКА,СУКА ХУЙ";
+                    System.Console.WriteLine(k - log);
+                    Label da = new Label();
+                    da.Content = "Loading ";
+                    scroll.Children.Add(da);
+                    da.Foreground = Brushes.Lime;
+                    da.FontFamily = new FontFamily("Consolas");
+                    da.FontSize = 14;
+                    da.Margin = new Thickness(0, lab[k].Margin.Top, 0, 0);
+                    tb[k].KeyDown -= Press;
+                    tb[k].IsReadOnly = true;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        da.Content += ". ";
+                        await Pause();
+                    }
+                    NextTb();
+                    NextTb();
+                    lab[k].Margin = new Thickness(0, lab[k-1].Margin.Top + 30, 0, 0);
+                    tb[k].Margin = new Thickness(lab[k].DesiredSize.Width - 5, lab[k - 1].Margin.Top + 35, 0, 0);
+
                 }
             }
         }
@@ -117,7 +158,7 @@ namespace AAI_BOT
             tb[k].IsReadOnly = true;
             k++;
             scroll.Children.Add(lab[k]);
-            if(k == 1)
+            if (k == 1)
                 lab[k].Margin = new Thickness(0, 25, 0, 0);
             else
                 lab[k].Margin = new Thickness(0, 15 * (k + log - cls) + 10 , 0, 0);
@@ -147,6 +188,14 @@ namespace AAI_BOT
         {
             cls = k + 2 + log;
             scroll.Children.Clear();
+        }
+
+        private void Time()
+        {
+            DateTime localDate = DateTime.Now;
+            var culture = new CultureInfo("ru-RU");
+            time = localDate.ToString(culture);
+            report = "Status report at " + time;
         }
     }
 }
