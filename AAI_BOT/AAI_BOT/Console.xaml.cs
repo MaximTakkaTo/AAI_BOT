@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Threading.Tasks;
 using System.Globalization;
+using System.IO;
 
 namespace AAI_BOT
 {
@@ -21,8 +22,8 @@ namespace AAI_BOT
         public string[] codes = new string[23] 
         {
             "",
-            "admin",
-            "admin",
+            "",
+            "",
             "", "",
             "",
             "/status",
@@ -69,13 +70,15 @@ namespace AAI_BOT
             ""
         };
 
-
-
-        string errMess = "ОБНАРУЖЕНА ПОЛОМКА! ЭТА КОМАНДА НЕ РАБОТАЕТ!";
         public Console()
         {
             InitializeComponent();
 
+            checkFile();
+            StreamReader sl = new StreamReader("login.txt");
+            StreamReader sp = new StreamReader("password.txt");
+            codes[1] = sl.ReadLine();
+            codes[2] = sp.ReadLine();
             view.Cursor = Cursors.None;
             for(int i = 0; i < tb.Length;i++)
             {
@@ -98,11 +101,6 @@ namespace AAI_BOT
             lab[k].Content = mess[k];
             lab[k].HorizontalAlignment = HorizontalAlignment.Center;
             NextTb();
-        }
-
-        async Task Pause(int time)
-        {
-            await Task.Delay(time);
         }
 
         private async void Press(object sender, KeyEventArgs e)
@@ -149,7 +147,7 @@ namespace AAI_BOT
                         }
                     }
                     else
-                        Eror(errMess);
+                        Eror("ОБНАРУЖЕНА ПОЛОМКА! ЭТА КОМАНДА НЕ РАБОТАЕТ!");
                 }
 
                 if (k - log == 3)
@@ -261,7 +259,12 @@ namespace AAI_BOT
             NextTb();          
             scroll.Children.Add(err);
         }
-        
+
+        async Task Pause(int time)
+        {
+            await Task.Delay(time);
+        }
+
         private void clscr()
         {
             cls = k + 2 + log;
@@ -274,6 +277,31 @@ namespace AAI_BOT
             var culture = new CultureInfo("ru-RU");
             time = localDate.ToString(culture);
             report = "Статус репорт на " + time;
+        }
+
+        private void checkFile()
+        {
+            try
+            {
+                File.Open("login.txt", FileMode.Open);
+            }
+            catch (FileNotFoundException)
+            {
+                StreamWriter sw = new StreamWriter("login.txt");
+                sw.WriteLine("admin");
+                sw.Close();
+            }
+            
+            try
+            {
+                File.Open("password.txt", FileMode.Open);
+            }
+            catch (FileNotFoundException)
+            {
+                StreamWriter sw = new StreamWriter("password.txt");
+                sw.WriteLine("admin");
+                sw.Close();
+            }
         }
     }
 }
