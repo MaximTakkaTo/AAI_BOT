@@ -18,12 +18,60 @@ namespace AAI_BOT
         int cls;
         string time,report;
 
-        public string[] codes = new string[23] { "", "admin", "admin", "", "", "", "/status", "1", "2", "4", "5", "6", "7", "8", "9", "10", "11", "/firmware", "/repair", "1", "12", "/login",""};
-        public string[] mess = new string[23] { "AI BOT v1.0.2.8.2.0 HAS ACTIVATED", "login:", "password:", "", "Welcome to the technical terminal of AI BOT of SCHOOL 38", "In this terminal you can find out the status of the bot and get to the main terminal of the bot.(Use /status)", "38school@AI_BOT$>","","", "===========================================", "Block 1: GOOD", "Block 2: GOOD", "RAM: GOOD", "Firmware : BAD (BROKEN)", "CPU: GOOD", "===========================================", "A fault has been found in the firmware (You can enter the firmware block and fix the problem (use /firmware and then /repair))", "38school@AI_BOT$>", "38school@AI_BOT:~/Firmware$>", "", "Successfully completed!Now you can enter the main terminal of the bot (use /login).", "38school@AI_BOT:~/Firmware$>", "" };
+        public string[] codes = new string[23] 
+        {
+            "",
+            "admin",
+            "admin",
+            "", "",
+            "",
+            "/status",
+            "1",
+            "2",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "/firmware",
+            "/repair",
+            "1",
+            "12",
+            "/login",
+            ""
+        };
+        public string[] mess = new string[23] 
+        {
+            "AI BOT v1.0.2 АКТИВИРОВАН",
+            "login:",
+            "password:",
+            "",
+            "Добро пожаловать в технический терминал бота c ИИ 38 школы",
+            "В этом терминале вы можете посмотреть техническое сотояние (статус) бота и войти в основной терминал.(Для просмотра статуса бота используйте команду: /status)",
+            "38school@AI_BOT$>",
+            "",
+            "",
+            "===========================================",
+            "БЛОК 1: ВСЁ ИСПРАВНО",
+            "БЛОК 2: ВСЁ ИСПРАВНО",
+            "ОЗУ: ВСЁ ИСПРАВНО",
+            "ПРОШИВКА: ОБНАРУЖЕНА НЕИСПРАВНОСТЬ ",
+            "Центральный процессор: ВСЁ ИСПРАВНО",
+            "===========================================",
+            "Была обнаружена поломка в прошивке бота.(Вы можете войти в блок прошивки бота, использовав команду: /firmware; и исправить ошибку в блоке прошивки, использовав комаду: /repair).",
+            "38school@AI_BOT$>", "38school@AI_BOT:~/Firmware$>",
+            "",
+            "Успешно выполнено! Теперь вы можете войти в основной терминал бота, использовав команду: /login.",
+            "38school@AI_BOT:~/Firmware$>",
+            ""
+        };
 
 
 
-        string errMess = "A BREAKDOWN WAS DETECTED.THIS COMMAND DOESN\'T WORK!";
+        string errMess = "ОБНАРУЖЕНА ПОЛОМКА! ЭТА КОМАНДА НЕ РАБОТАЕТ!";
         public Console()
         {
             InitializeComponent();
@@ -90,14 +138,14 @@ namespace AAI_BOT
                     {
                         if (k - log == 6)
                         {
-                            Eror("An error or breakdown was detected in the bot.Only the /status command is available");
+                            Eror("Обнаружена ошибка или неисправность бота. Используйте команду: /status, для получения информации");
                         }
                         if ((k - log) == 1 || (k - log) == 2)
                         {
                             if (k - log == 1)
-                                Eror("WRONG LOGIN. TRY AGAIN!");
+                                Eror("Неправильный логин! Попробуйте ещё раз!");
                             if (k - log == 2)
-                                Eror("WRONG PASSWORD. TRY AGAIN!");
+                                Eror("Неправильный пароль! Попробуйте ещё раз!");
                         }
                     }
                     else
@@ -107,7 +155,7 @@ namespace AAI_BOT
                 if (k - log == 3)
                 {
                     Label kak = new Label();
-                    kak.Content = "Loading ";
+                    kak.Content = "Загрузка ";
                     scroll.Children.Add(kak);
                     kak.Foreground = Brushes.Lime;
                     kak.FontFamily = new FontFamily("Consolas");
@@ -138,7 +186,7 @@ namespace AAI_BOT
                 {
                     mess[8] = report + ":";
                     Label da = new Label();
-                    da.Content = "Loading ";
+                    da.Content = "Загрузка ";
                     scroll.Children.Add(da);
                     da.Foreground = Brushes.Lime;
                     da.FontFamily = new FontFamily("Consolas");
@@ -162,7 +210,7 @@ namespace AAI_BOT
                 {
                     mess[8] = report + ":";
                     Label da = new Label();
-                    da.Content = "Loading ";
+                    da.Content = "Загрузка ";
                     scroll.Children.Add(da);
                     da.Foreground = Brushes.Lime;
                     da.FontFamily = new FontFamily("Consolas");
@@ -225,7 +273,7 @@ namespace AAI_BOT
             DateTime localDate = DateTime.Now;
             var culture = new CultureInfo("ru-RU");
             time = localDate.ToString(culture);
-            report = "Status report at " + time;
+            report = "Статус репорт на " + time;
         }
     }
 }
