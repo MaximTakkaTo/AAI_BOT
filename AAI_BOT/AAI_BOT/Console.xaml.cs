@@ -283,7 +283,8 @@ namespace AAI_BOT
         {
             try
             {
-                File.Open("login.txt", FileMode.Open);
+                StreamReader sa = new StreamReader("login.txt");
+                sa.Close();
             }
             catch (FileNotFoundException)
             {
@@ -294,7 +295,8 @@ namespace AAI_BOT
             
             try
             {
-                File.Open("password.txt", FileMode.Open);
+                StreamReader sa = new StreamReader("password.txt");
+                sa.Close();
             }
             catch (FileNotFoundException)
             {
