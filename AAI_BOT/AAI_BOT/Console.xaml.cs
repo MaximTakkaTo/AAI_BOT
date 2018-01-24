@@ -18,8 +18,8 @@ namespace AAI_BOT
         int cls;
         string time,report;
 
-        public string[] codes = new string[10] { "", "admin", "admin", "", "", "", "/status", "1", "2","4"};
-        public string[] mess = new string[10] { "AI BOT HAS ACTIVATED", "LOGIN>", "PASSWORD>", "", "Welcome to the technical terminal of AI BOT of SCHOOL 38", "In this terminal you can find out the status of the bot and get to the main terminal of the bot.(Use /status)", "38school@AI_BOT>","", "Status Report, ПОЛОМКА ОБНАРУЖЕНА ,СУКА ХУЙ", "38school@AI_BOT>" };
+        public string[] codes = new string[23] { "", "admin", "admin", "", "", "", "/status", "1", "2", "4", "5", "6", "7", "8", "9", "10", "11", "/firmware", "/repair", "1", "12", "/login",""};
+        public string[] mess = new string[23] { "AI BOT v1.0.2.8.2.0 HAS ACTIVATED", "login:", "password:", "", "Welcome to the technical terminal of AI BOT of SCHOOL 38", "In this terminal you can find out the status of the bot and get to the main terminal of the bot.(Use /status)", "38school@AI_BOT$>","","", "===========================================", "Block 1: GOOD", "Block 2: GOOD", "RAM: GOOD", "Firmware : BAD (BROKEN)", "CPU: GOOD", "===========================================", "A fault has been found in the firmware (You can enter the firmware block and fix the problem (use /firmwre and then /repair))", "38school@AI_BOT$>", "38school@AI_BOT:~/Firmware$>", "", "Successfully completed!Now you can enter the main terminal of the bot (use /login).", "38school@AI_BOT:~/Firmware$>", "" };
 
 
 
@@ -45,22 +45,20 @@ namespace AAI_BOT
                 tb[i].FontSize = 14;
                 tb[i].FontFamily = new FontFamily("Consolas");
                 tb[i].Cursor = Cursors.None;
-            }
-
+            }   
             scroll.Children.Add(lab[k]);
             lab[k].Content = mess[k];
             lab[k].HorizontalAlignment = HorizontalAlignment.Center;
             NextTb();
         }
 
-        async Task Pause()
+        async Task Pause(int time)
         {
-            await Task.Delay(100);
+            await Task.Delay(time);
         }
 
         private async void Press(object sender, KeyEventArgs e)
         {
-            System.Console.WriteLine(k - log);
             Time();
             f1 = false;
             var str = tb[k].Text.Replace(" ", "");
@@ -88,10 +86,20 @@ namespace AAI_BOT
                 }
                 if (f1)
                 {
-                    if (k - log == 6)
+                    if((k - log) == 6 || (k - log) == 1 || (k - log) == 2)
                     {
-                        Eror("An error or breakdown was detected in the bot.Only the /status command is available");
-                    }   
+                        if (k - log == 6)
+                        {
+                            Eror("An error or breakdown was detected in the bot.Only the /status command is available");
+                        }
+                        if ((k - log) == 1 || (k - log) == 2)
+                        {
+                            if (k - log == 1)
+                                Eror("WRONG LOGIN. TRY AGAIN!");
+                            if (k - log == 2)
+                                Eror("WRONG Password. TRY AGAIN!");
+                        }
+                    }
                     else
                         Eror(errMess);
                 }
@@ -110,7 +118,7 @@ namespace AAI_BOT
                     for (int i = 0; i < 7; i++)
                     {
                         kak.Content += ". ";
-                        await Pause();
+                        await Pause(500);
                     }
                     clscr();
                     NextTb();
@@ -128,8 +136,31 @@ namespace AAI_BOT
                 }
                 if (k - log == 7)
                 {
-                    mess[8] = report + ":\n" + "ОБНАРУЖЕНА ПОЛОМКА,СУКА ХУЙ";
-                    System.Console.WriteLine(k - log);
+                    mess[8] = report + ":";
+                    Label da = new Label();
+                    da.Content = "Loading ";
+                    scroll.Children.Add(da);
+                    da.Foreground = Brushes.Lime;
+                    da.FontFamily = new FontFamily("Consolas");
+                    da.FontSize = 14;
+                    da.Margin = new Thickness(0, lab[k].Margin.Top, 0, 0);
+                      tb[k].KeyDown -= Press;
+                    tb[k].IsReadOnly = true;
+                    for (int i = 0; i < 7; i++)
+                    {
+                        da.Content += ". ";
+                        await Pause(500);
+                    }
+                    for (int i = 0; i < 10; i++)
+                    {
+                        NextTb();
+                    }
+                    lab[k - 1].Foreground = Brushes.Red;
+                    lab[k - 4].Foreground = Brushes.Red;
+                }
+                if ((k - log) == 19)
+                {
+                    mess[8] = report + ":";
                     Label da = new Label();
                     da.Content = "Loading ";
                     scroll.Children.Add(da);
@@ -142,19 +173,18 @@ namespace AAI_BOT
                     for (int i = 0; i < 7; i++)
                     {
                         da.Content += ". ";
-                        await Pause();
+                        await Pause(1000);
                     }
                     NextTb();
                     NextTb();
-                    lab[k].Margin = new Thickness(0, lab[k-1].Margin.Top + 30, 0, 0);
-                    tb[k].Margin = new Thickness(lab[k].DesiredSize.Width - 5, lab[k - 1].Margin.Top + 35, 0, 0);
-
                 }
+                if ((k - log) == 22)
+                    MessageBox.Show("Вы успешно прошли эту хуйню. Поздравляю.");
             }
-        }
+        }   
 
         private void NextTb()
-        {
+        {   
             tb[k].IsReadOnly = true;
             k++;
             scroll.Children.Add(lab[k]);
