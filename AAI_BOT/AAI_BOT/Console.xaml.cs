@@ -10,8 +10,8 @@ namespace AAI_BOT
 {
     public partial class Console : Window
     {
-        public TextBox[] tb = new TextBox[25];
-        public Label[] lab = new Label[25];
+        public TextBox[] tb = new TextBox[50];
+        public Label[] lab = new Label[50];
         int k = 0;
         int log = 0;
         bool f1 = false;
@@ -19,11 +19,11 @@ namespace AAI_BOT
         string time,report;
 
         public string[] codes = new string[23] { "", "admin", "admin", "", "", "", "/status", "1", "2", "4", "5", "6", "7", "8", "9", "10", "11", "/firmware", "/repair", "1", "12", "/login",""};
-        public string[] mess = new string[23] { "AI BOT v1.0.2.8.2.0 HAS ACTIVATED", "login:", "password:", "", "Welcome to the technical terminal of AI BOT of SCHOOL 38", "In this terminal you can find out the status of the bot and get to the main terminal of the bot.(Use /status)", "38school@AI_BOT$>","","", "===========================================", "Block 1: GOOD", "Block 2: GOOD", "RAM: GOOD", "Firmware : BAD (BROKEN)", "CPU: GOOD", "===========================================", "A fault has been found in the firmware (You can enter the firmware block and fix the problem (use /firmwre and then /repair))", "38school@AI_BOT$>", "38school@AI_BOT:~/Firmware$>", "", "Successfully completed!Now you can enter the main terminal of the bot (use /login).", "38school@AI_BOT:~/Firmware$>", "" };
+        public string[] mess = new string[23] { "AI BOT v1.0.2.8.2.0 HAS ACTIVATED", "login:", "password:", "", "Welcome to the technical terminal of AI BOT of SCHOOL 38", "In this terminal you can find out the status of the bot and get to the main terminal of the bot.(Use /status)", "38school@AI_BOT$>","","", "===========================================", "Block 1: GOOD", "Block 2: GOOD", "RAM: GOOD", "Firmware : BAD (BROKEN)", "CPU: GOOD", "===========================================", "A fault has been found in the firmware (You can enter the firmware block and fix the problem (use /firmware and then /repair))", "38school@AI_BOT$>", "38school@AI_BOT:~/Firmware$>", "", "Successfully completed!Now you can enter the main terminal of the bot (use /login).", "38school@AI_BOT:~/Firmware$>", "" };
 
 
 
-        string errMess = "WRONG! PLEASE REPEAT.";
+        string errMess = "A BREAKDOWN WAS DETECTED.THIS COMMAND DOESN\'T WORK!";
         public Console()
         {
             InitializeComponent();
@@ -97,7 +97,7 @@ namespace AAI_BOT
                             if (k - log == 1)
                                 Eror("WRONG LOGIN. TRY AGAIN!");
                             if (k - log == 2)
-                                Eror("WRONG Password. TRY AGAIN!");
+                                Eror("WRONG PASSWORD. TRY AGAIN!");
                         }
                     }
                     else
