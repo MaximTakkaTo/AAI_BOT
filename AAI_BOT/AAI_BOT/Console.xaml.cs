@@ -74,6 +74,9 @@ namespace AAI_BOT
         {
             InitializeComponent();
 
+            MainBot mb = new MainBot();
+            mb.Show();
+
             checkFile();
             StreamReader sl = new StreamReader("login.txt");
             StreamReader sp = new StreamReader("password.txt");

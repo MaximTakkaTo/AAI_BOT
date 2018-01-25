@@ -84,6 +84,9 @@
     <Compile Include="Console.xaml.cs">
       <DependentUpon>Console.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainBot.xaml.cs">
+      <DependentUpon>MainBot.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -111,6 +114,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Console.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainBot.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
