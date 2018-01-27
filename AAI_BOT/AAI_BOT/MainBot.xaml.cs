@@ -1,30 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace AAI_BOT
 {
-
     public partial class MainBot : Window
     {
         //buttons - текст для кнопок
+
+        public string[,] buttons = new string[3, 2] 
+        { 
+            {"Рад помоч!", "Пшел нахуй!" },
+            {"Ебаш инфу", "Про замая пизди"},
+            {"none", "none"}
+        };
         //botMess - сообщения бота
-        public string[,] buttons = new string[3, 2] { {"Рад помоч!", "Пшел нахуй!" }, {"Ебаш инфу", "Про замая пизди"}, {"none", "none"} };
-        public string[,] botMess = new string[3, 2] { { "Спасибо, что починил меня, Олег!", "" }, { "Вам что-нибудь нужно?", "Долбоеб, что хотел?" }, { "none", "none" } };
+        public string[,] botMess = new string[3, 2] 
+        { 
+            { "Спасибо, что починил меня, Олег!", "" },
+            { "Вам что-нибудь нужно?", "Долбоеб, что хотел?" },
+            { "none", "none" }
+        };
         //k - кол-во лейблов
         //l - нужно, чтобы сообщение от батонов сдвигалось нормально
         int k = 0, l = 0;
-        string source = @"F:\projects\AIProjectX\AAI_BOT\AAI_BOT\bin\Debug\stalin.jpg";
+
+        string source = @"Pictures/Stalin.png";//Картинка Сталина.
 
         public MainBot()
         {
@@ -62,7 +65,7 @@ namespace AAI_BOT
             la.Children.Add(lab);
         }
 
-        //нормальные ответ
+        //нормальные ответы
         private void Answer(object sender, RoutedEventArgs e)
         {
             //создание сообщения от пользователя
@@ -109,7 +112,7 @@ namespace AAI_BOT
             bord.Background = new SolidColorBrush(Color.FromArgb(255, 138, 161, 177));
             la.Children.Add(bord);
             Image img = new Image();
-            img.Source = new BitmapImage(new Uri(source));
+            img.Source = new BitmapImage(new Uri(source, UriKind.Relative));
             bord.Child = img;
         }
         

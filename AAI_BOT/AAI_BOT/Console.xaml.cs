@@ -13,76 +13,59 @@ namespace AAI_BOT
     {
         public TextBox[] tb = new TextBox[50];
         public Label[] lab = new Label[50];
-        int k = 0;
-        int log = 0;
-        bool f1 = false;
+        int k = 0;//Счетчик лейблов
+        int log = 0;//Счетчик лейблов - ошибок.
+        bool f1 = false; //Флаг неправильно введенной команды.
         int cls;
         string time,report;
 
-        public string[] codes = new string[23] 
-        {
-            "",
-            "",
-            "",
-            "", "",
-            "",
-            "/status",
-            "1",
-            "2",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "/firmware",
-            "/repair",
-            "1",
-            "12",
-            "/login",
-            ""
-        };
-        public string[] mess = new string[23] 
+        public string[] mess = new string[23] // Массив строк с текстами для label'ов
         {
             "AI BOT v1.0.2 АКТИВИРОВАН",
             "login:",
             "password:",
-            "",
+            "",//loading
             "Добро пожаловать в технический терминал бота c ИИ 38 школы",
             "В этом терминале вы можете посмотреть техническое сотояние (статус) бота и войти в основной терминал.(Для просмотра статуса бота используйте команду: /status)",
             "38school@AI_BOT$>",
-            "",
-            "",
+            "",//loading
+            "",//status
             "===========================================",
             "БЛОК 1: ВСЁ ИСПРАВНО",
             "БЛОК 2: ВСЁ ИСПРАВНО",
             "ОЗУ: ВСЁ ИСПРАВНО",
             "ПРОШИВКА: ОБНАРУЖЕНА НЕИСПРАВНОСТЬ ",
-            "Центральный процессор: ВСЁ ИСПРАВНО",
+            "ЦП: ВСЁ ИСПРАВНО",
             "===========================================",
             "Была обнаружена поломка в прошивке бота.(Вы можете войти в блок прошивки бота, использовав команду: /firmware; и исправить ошибку в блоке прошивки, использовав комаду: /repair).",
             "38school@AI_BOT$>", "38school@AI_BOT:~/Firmware$>",
-            "",
+            "",//loading
             "Успешно выполнено! Теперь вы можете войти в основной терминал бота, использовав команду: /login.",
             "38school@AI_BOT:~/Firmware$>",
-            ""
+            ""//end
         };
+
+        public string[] codes = new string[23]; //Массив строк с ответами
 
         public Console()
         {
             InitializeComponent();
-
             MainBot mb = new MainBot();
             mb.Show();
-
-            checkFile();
+            
+            //Настройка логина и пароля
+            settLog();
             StreamReader sl = new StreamReader("login.txt");
             StreamReader sp = new StreamReader("password.txt");
+            //Присваивание значений массиву команд
             codes[1] = sl.ReadLine();
             codes[2] = sp.ReadLine();
+            codes[6] = "/status";
+            codes[17] = "/firmware";
+            codes[18] = "/repair";
+            codes[21] = "/login";
             view.Cursor = Cursors.None;
+            //Стандартные значения для всех label'ов и textbox'ов 
             for(int i = 0; i < tb.Length;i++)
             {
                 lab[i] = new Label();
@@ -105,15 +88,16 @@ namespace AAI_BOT
             lab[k].HorizontalAlignment = HorizontalAlignment.Center;
             NextTb();
         }
-
+        //Метод, который вызывается при нажатии на клавишу ENTER. 
         private async void Press(object sender, KeyEventArgs e)
         {
             Time();
             f1 = false;
-            var str = tb[k].Text.Replace(" ", "");
+            var str = tb[k].Text.Replace(" ", ""); //Убирание пробелов из строк.
+            //Общие случаи после ввода команды. 
             if (e.Key == Key.Enter && str != "")
             {
-                if (((k - log) == 1 || (k - log) == 2) | (k - log) != 7)
+                if (((k - log) == 1 || (k - log) == 2) | (k - log) != 7) 
                 {
                     if (str == codes[k - log])
                     { 
@@ -152,7 +136,7 @@ namespace AAI_BOT
                     else
                         Eror("ОБНАРУЖЕНА ПОЛОМКА! ЭТА КОМАНДА НЕ РАБОТАЕТ!");
                 }
-
+                //Частные случаи после ввода команды
                 if (k - log == 3)
                 {
                     Label kak = new Label();
@@ -201,9 +185,7 @@ namespace AAI_BOT
                         await Pause(500);
                     }
                     for (int i = 0; i < 10; i++)
-                    {
                         NextTb();
-                    }
                     lab[k - 1].Foreground = Brushes.Red;
                     lab[k - 4].Foreground = Brushes.Red;
                 }
@@ -231,7 +213,7 @@ namespace AAI_BOT
                     MessageBox.Show("Вы успешно прошли эту хуйню. Поздравляю.");
             }
         }   
-
+        // Метод, который "переводит курсор на новую строчку".
         private void NextTb()
         {   
             tb[k].IsReadOnly = true;
@@ -249,7 +231,8 @@ namespace AAI_BOT
             tb[k].Focus();
             tb[k].KeyDown += Press;
         }
-
+        //Метод, который выводит сообщение - ошибку.
+        //Параметры mess - строка, которую нужно вывести.
         private void Eror(string mess)
         {
             Label err = new Label();
@@ -263,17 +246,19 @@ namespace AAI_BOT
             scroll.Children.Add(err);
         }
 
+        //Ассинхронный метод задержки.
+        //Параметры time - количество времени в МС, на которое нужно задержать выполнение
         async Task Pause(int time)
         {
             await Task.Delay(time);
         }
-
+        //Метод, который "очищает экран" путем удаления элементов с Grid'а
         private void clscr()
         {
             cls = k + 2 + log;
             scroll.Children.Clear();
         }
-
+        //Метод, который формирует строку статус - репорта. 
         private void Time()
         {
             DateTime localDate = DateTime.Now;
@@ -281,13 +266,15 @@ namespace AAI_BOT
             time = localDate.ToString(culture);
             report = "Статус репорт на " + time;
         }
-
-        private void checkFile()
+        //Метод, который проверяет файлы настроек логина и пароля.
+        //При наличии файла: продолжает выполнять программу.
+        //При отсутствии файла: создает новый и записывает в него строку "admin".
+        private void settLog()
         {
             try
             {
-                StreamReader sa = new StreamReader("login.txt");
-                sa.Close();
+                StreamReader sr = new StreamReader("login.txt");
+                sr.Close();
             }
             catch (FileNotFoundException)
             {
@@ -298,8 +285,8 @@ namespace AAI_BOT
             
             try
             {
-                StreamReader sa = new StreamReader("password.txt");
-                sa.Close();
+                StreamReader sr = new StreamReader("password.txt");
+                sr.Close();
             }
             catch (FileNotFoundException)
             {

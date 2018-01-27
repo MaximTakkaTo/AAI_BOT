@@ -17,8 +17,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Content="Button" x:Name="Second" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Column="1"  Height="56" Click="Answer"/>
-            <Button Content="Button" x:Name="First" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Column="0"  Height="56" Click="Answer"/>
+            <Button Content="Button" x:Name="Second" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Column="1"  Height="56" Click="AnswerBad" BorderThickness="2"/>
+            <Button Content="Button" x:Name="First" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Column="0"  Height="56" Click="Answer" BorderThickness="2"/>
         </Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <Grid Name="la"/>
