@@ -1,12 +1,13 @@
-﻿<Window x:Class="AAI_BOT.MainBot"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AAI_BOT"
+        xmlns:Properties="clr-namespace:AAI_BOT.Properties" x:Class="AAI_BOT.MainBot"
         mc:Ignorable="d"
-        Title="MainBot" Background="#FF16262C" ResizeMode="NoResize" WindowState="Maximized">
-    <Grid Name="la">
+        Title="MainBot" Background="#FF16262C" WindowState="Maximized">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="435*"/>
             <RowDefinition Height="71*"/>
@@ -16,10 +17,12 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Content="Button" Name="Second" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Column="0"  Height="56"/>
-            <Button Content="Button" Name="First" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Column="1"  Height="56"/>
+            <Button Content="Button" x:Name="Second" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Column="1"  Height="56" Click="Answer"/>
+            <Button Content="Button" x:Name="First" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Column="0"  Height="56" Click="Answer"/>
         </Grid>
-      
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid Name="la"/>
 
+        </ScrollViewer>
     </Grid>
 </Window>
