@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Threading.Tasks;
 
 namespace AAI_BOT
 {
@@ -12,20 +13,20 @@ namespace AAI_BOT
 
         public string[,] buttons = new string[3, 2] 
         { 
-            {"Рад помоч!", "Пшел нахуй!" },
-            {"Ебаш инфу", "Про замая пизди"},
-            {"none", "none"}
+            {"Рады помочь!", "Да не за что!" },
+            {"Да, давай, рассказывай!", "Нет, нам это не интересно"},
+            {"Да, давай, рассказывай!", "Нет, нам это не интересно"}
         };
         //botMess - сообщения бота
         public string[,] botMess = new string[3, 2] 
         { 
-            { "Спасибо, что починил меня, Олег!", "" },
-            { "Вам что-нибудь нужно?", "Долбоеб, что хотел?" },
-            { "none", "none" }
+            { "Спасибо, что починил меня, Пользователь!", "" },
+            { "Тайна КПСС. Секреты Сталина и его преспешников. Хотите узнать больше?", "Тайна КПСС. Секреты Сталина и его преспешников. Хотите узнать больше?" },
+            { "s", "s" }
         };
         //k - кол-во лейблов
         //l - нужно, чтобы сообщение от батонов сдвигалось нормально
-        int k = 0, l = 0;
+        int k = 0, l = 0, m = 0;
 
         string source = @"Pictures/Stalin.png";//Картинка Сталина.
 
@@ -41,29 +42,51 @@ namespace AAI_BOT
         //Создание сообщения
         //mess - текст сообщения
         //im - true - пользователь отправил / false - бот отправил
-        public void CreateMess(string mess, bool im)
+        public async void CreateMess(string mess, bool im)
         {
             Label lab = new Label();
             lab.Content = mess;
-            lab.Foreground = Brushes.Black;
-
+            lab.FontSize = 24;
+            lab.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            Border br = new Border();
+            br.BorderBrush = Brushes.Black;
+            br.Width = lab.DesiredSize.Width + 10;
+            br.Height = lab.DesiredSize.Height + 10;
+            br.CornerRadius = new CornerRadius(15);
+            br.Child = lab;
             if (im)
             {
-                lab.Background = new SolidColorBrush(Color.FromArgb(255, 136, 217, 230));
-                lab.HorizontalAlignment = HorizontalAlignment.Right;
+                br.Background = new SolidColorBrush(Color.FromArgb(255, 136, 217, 230));
+                br.Margin = new Thickness(10, 35 * (k + l) + m, 10, 0);
+                br.HorizontalAlignment = HorizontalAlignment.Right;
             }
             else
             {
-                lab.Background = new SolidColorBrush(Color.FromArgb(255, 138, 161, 177));
-                lab.HorizontalAlignment = HorizontalAlignment.Left;
+                if (k == 1)
+                    ShowImg();
+                br.Background = new SolidColorBrush(Color.FromArgb(255, 138, 161, 177));
+                br.Margin = new Thickness(10, 35 * (k + l + m) + 10, 10, 0);
+                br.HorizontalAlignment = HorizontalAlignment.Left;
+                Typing.Content = "Бот пишет";
+                Typing.Visibility = Visibility.Visible;
+                First.Visibility = Visibility.Collapsed;
+                Second.Visibility = Visibility.Collapsed;
+                for (int i = 0; i < 8; i++)
+                {
+                    Typing.Content += " .";
+                    await Pause(500);
+                    if (i % 3 == 0)
+                        Typing.Content = "Бот пишет";
+                }
+                Typing.Visibility = Visibility.Collapsed;
+                First.Visibility = Visibility.Visible;
+                Second.Visibility = Visibility.Visible;
             }
+            br.VerticalAlignment = VerticalAlignment.Top;
 
-            lab.VerticalAlignment = VerticalAlignment.Top;
-
-            lab.Margin = new Thickness(10, 25 * (k + l) + 10, 10, 0);
-            lab.Padding = new Thickness(5, 5, 5, 5);
-            la.Children.Add(lab);
-        }
+            br.Padding = new Thickness(5, 5, 5, 5);
+            la.Children.Add(br);
+        }       
 
         //нормальные ответы
         private void Answer(object sender, RoutedEventArgs e)
@@ -77,8 +100,7 @@ namespace AAI_BOT
             First.Content = buttons[k, 0];
             Second.Content = buttons[k, 1];
             k++;
-            if (k == 3)
-                ShowImg();
+
         }
 
         //плохие ответы
@@ -93,15 +115,13 @@ namespace AAI_BOT
             First.Content = buttons[k, 0];
             Second.Content = buttons[k, 1];
             k++;
-            if (k == 3)
-                ShowImg();
         }
 
         //Показ картиночки
         public void ShowImg()
         {
             Border bord = new Border();
-            bord.Margin = new Thickness(10, 25 * (k + l - 1) + 10, 0, 0);
+            bord.Margin = new Thickness(10, 35 * (k + l - 1) + 35, 0, 0);
             bord.Padding = new Thickness(5, 5, 5, 5);
             bord.HorizontalAlignment = HorizontalAlignment.Left;
             bord.VerticalAlignment = VerticalAlignment.Top;
@@ -114,7 +134,13 @@ namespace AAI_BOT
             Image img = new Image();
             img.Source = new BitmapImage(new Uri(source, UriKind.Relative));
             bord.Child = img;
+            m = 200;
         }
-        
+
+        async Task Pause(int time)
+        {
+            await Task.Delay(time);
+        }
+
     }
 }
