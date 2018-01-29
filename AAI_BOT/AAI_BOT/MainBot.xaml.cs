@@ -18,6 +18,7 @@ namespace AAI_BOT
             {"Да, давай, рассказывай!", "Нет, нам это не интересно"},
             {"", ""}
         };
+
         //botMess - сообщения бота
         public string[,] botMess = new string[4, 2] 
         { 
@@ -26,10 +27,11 @@ namespace AAI_BOT
             { "Тайна КПСС. Секреты Сталина и его преспешников. Хотите узнать больше?", "Тайна КПСС. Секреты Сталина и его преспешников. Хотите узнать больше?" },
             { "s", "s" }
         };
+
         //k - кол-во лейблов
         //l - нужно, чтобы сообщение от батонов сдвигалось нормально
         int k = 0, l = 0;
-        float m = 0, m1 = 0;
+        float m = 0;
 
         string source = @"Pictures/Stalin.png";//Картинка Сталина.
 
@@ -70,7 +72,7 @@ namespace AAI_BOT
             polygonPoints1.Add(Point5);
             polygonPoints1.Add(Point6);
             pol1.Points = polygonPoints1;
-            pol1.Fill = new SolidColorBrush(Color.FromArgb(255, 136, 217, 230));
+            pol1.Fill = new SolidColorBrush(Color.FromArgb(255, 138, 233, 248));
             sp1.Children.Add(pol1);
 
             Label lab = new Label();
@@ -89,7 +91,7 @@ namespace AAI_BOT
             {
                 sp1.Margin = new Thickness(0, 60 * (k + l + m) + lab.Margin.Top + br.DesiredSize.Height + 10, 18, 0);
                 sp1.HorizontalAlignment = HorizontalAlignment.Right;
-                br.Background = new SolidColorBrush(Color.FromArgb(255, 136, 217, 230));
+                br.Background = new SolidColorBrush(Color.FromArgb(255, 138, 233, 248));
                 br.Margin = new Thickness(0, 60 * (k + l + m) + 10, 10 + 27, 0);
                 br.HorizontalAlignment = HorizontalAlignment.Right;
             }
@@ -161,10 +163,26 @@ namespace AAI_BOT
         public void ShowImg()
         {
             Border bord = new Border();
-            bord.Margin = new Thickness(10, 65 * (k + l), 0, 0);
+            bord.Margin = new Thickness(37, 65 * (k + l), 0, 0);
             bord.Padding = new Thickness(5, 5, 5, 5);
             bord.HorizontalAlignment = HorizontalAlignment.Left;
             bord.VerticalAlignment = VerticalAlignment.Top;
+
+            StackPanel sp = new StackPanel();
+            Polygon pol = new Polygon();
+            PointCollection polygonPoints = new PointCollection();
+            Point Point1 = new Point(0, 0);
+            Point Point2 = new Point(32, 0);
+            Point Point3 = new Point(32, -20);
+            polygonPoints.Add(Point1);
+            polygonPoints.Add(Point2);
+            polygonPoints.Add(Point3);
+            pol.Points = polygonPoints;
+            pol.Fill = new SolidColorBrush(Color.FromArgb(255, 138, 161, 177));
+            sp.Children.Add(pol);
+            sp.Margin = new Thickness(18, 497, 0, 0);
+            la.Children.Add(sp);
+
             //размер / пишешь любую ширину, чтобы найти высоту, то ширину умножаешь на 1,398907103825137 (можешь округлить до целого)
             //1,398907103825137 - коэф. высчитывается, как оригинальная высота/оригинальная ширина, или наоборот
             bord.Width = 170; 
