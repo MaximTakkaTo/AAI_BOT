@@ -4,13 +4,13 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace AAI_BOT
 {
     public partial class MainBot : Window
     {
         //buttons - текст для кнопок
-
         public string[,] buttons = new string[4, 2] 
         { 
             {"Рады помочь!", "А кто тебя сломал?" },
@@ -29,7 +29,7 @@ namespace AAI_BOT
         //k - кол-во лейблов
         //l - нужно, чтобы сообщение от батонов сдвигалось нормально
         int k = 0, l = 0;
-        float m = 0;
+        float m = 0, m1 = 0;
 
         string source = @"Pictures/Stalin.png";//Картинка Сталина.
 
@@ -47,28 +47,64 @@ namespace AAI_BOT
         //im - true - пользователь отправил / false - бот отправил
         public async void CreateMess(string mess, bool im)
         {
+            StackPanel sp = new StackPanel();
+            Polygon pol = new Polygon();
+            PointCollection polygonPoints = new PointCollection();
+            Point Point1 = new Point(0, 0);
+            Point Point2 = new Point(32, 0);
+            Point Point3 = new Point(32, -20);
+            polygonPoints.Add(Point1);
+            polygonPoints.Add(Point2);
+            polygonPoints.Add(Point3);
+            pol.Points = polygonPoints;
+            pol.Fill = new SolidColorBrush(Color.FromArgb(255, 138, 161, 177));
+            sp.Children.Add(pol);
+
+            StackPanel sp1 = new StackPanel();
+            Polygon pol1 = new Polygon();
+            PointCollection polygonPoints1 = new PointCollection();
+            Point Point4 = new Point(0, 0);
+            Point Point5 = new Point(-32, 0);
+            Point Point6 = new Point(-32, -20);
+            polygonPoints1.Add(Point4);
+            polygonPoints1.Add(Point5);
+            polygonPoints1.Add(Point6);
+            pol1.Points = polygonPoints1;
+            pol1.Fill = new SolidColorBrush(Color.FromArgb(255, 136, 217, 230));
+            sp1.Children.Add(pol1);
+
             Label lab = new Label();
             lab.Content = mess;
             lab.FontSize = 24;
             lab.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+
             Border br = new Border();
             br.BorderBrush = Brushes.Black;
             br.Width = lab.DesiredSize.Width + 10;
             br.Height = lab.DesiredSize.Height + 10;
             br.CornerRadius = new CornerRadius(15);
             br.Child = lab;
+            br.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             if (im)
             {
+                sp1.Margin = new Thickness(0, 60 * (k + l + m) + lab.Margin.Top + br.DesiredSize.Height + 10, 18, 0);
+                sp1.HorizontalAlignment = HorizontalAlignment.Right;
                 br.Background = new SolidColorBrush(Color.FromArgb(255, 136, 217, 230));
-                br.Margin = new Thickness(10, 60 * (k + l + m) + 10, 10, 0);
+                br.Margin = new Thickness(0, 60 * (k + l + m) + 10, 10 + 27, 0);
                 br.HorizontalAlignment = HorizontalAlignment.Right;
             }
             else
             {
+                sp.Margin = new Thickness(18, 60 * (k + l + m) + lab.Margin.Top + br.DesiredSize.Height + 10, 0, 0);
+
                 if (k == 2)
+                {
                     ShowImg();
+                    sp.Margin = new Thickness(18, 60 * (k + l + m) + lab.Margin.Top + br.DesiredSize.Height + 10, 0, 0);
+                }
+                    
                 br.Background = new SolidColorBrush(Color.FromArgb(255, 138, 161, 177));
-                br.Margin = new Thickness(10, 60 * (k + l + m) + 10, 10, 0);
+                br.Margin = new Thickness(10 + 27, 60 * (k + l + m) + 10, 10, 0);
                 br.HorizontalAlignment = HorizontalAlignment.Left;
                 Typing.Content = "Бот пишет";
                 Typing.Visibility = Visibility.Visible;
@@ -86,7 +122,8 @@ namespace AAI_BOT
                 Second.Visibility = Visibility.Visible;
             }
             br.VerticalAlignment = VerticalAlignment.Top;
-
+            la.Children.Add(sp);
+            la.Children.Add(sp1);
             br.Padding = new Thickness(5, 5, 5, 5);
             la.Children.Add(br);
         }       
@@ -137,7 +174,7 @@ namespace AAI_BOT
             Image img = new Image();
             img.Source = new BitmapImage(new Uri(source, UriKind.Relative));
             bord.Child = img;
-            m = 4.1F;
+            m = 4.3F;
         }
 
         async Task Pause(int time)

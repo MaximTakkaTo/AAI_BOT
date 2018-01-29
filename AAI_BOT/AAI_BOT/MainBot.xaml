@@ -25,6 +25,6 @@
             <Grid Name="la"/>
 
         </ScrollViewer>
-        <Label Content="Label" Foreground="Aquamarine" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,55" Grid.Row="1" VerticalAlignment="Bottom" x:Name="Typing" Grid.RowSpan="2"/>
+        <Label Content="Label" Foreground="Aquamarine" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,55" Grid.Row="1" Visibility="Collapsed" VerticalAlignment="Bottom" x:Name="Typing" Grid.RowSpan="2"/>
     </Grid>
 </Window>
