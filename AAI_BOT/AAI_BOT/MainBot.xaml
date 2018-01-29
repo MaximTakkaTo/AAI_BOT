@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AAI_BOT"
         xmlns:Properties="clr-namespace:AAI_BOT.Properties" x:Class="AAI_BOT.MainBot"
         mc:Ignorable="d"
-        Title="MainBot" Background="#FF16262C" WindowState="Maximized">
+        Title="MainBot" Background="#FF16262C" WindowState="Maximized" WindowStyle="None">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="401*"/>

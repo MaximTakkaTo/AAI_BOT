@@ -50,9 +50,6 @@ namespace AAI_BOT
         public Console()
         {
             InitializeComponent();
-            MainBot mb = new MainBot();
-            mb.Show();
-            
             //Настройка логина и пароля
             settLog();
             StreamReader sl = new StreamReader("login.txt");
@@ -123,7 +120,7 @@ namespace AAI_BOT
                     {
                         if (k - log == 6)
                         {
-                            Eror("Обнаружена ошибка или неисправность бота. Используйте команду: /status, для получения информации");
+                            Eror("Обнаружена ошибка или неисправность бота. Используйте команду: /status, для получения информации.");
                         }
                         if ((k - log) == 1 || (k - log) == 2)
                         {
@@ -210,7 +207,11 @@ namespace AAI_BOT
                     NextTb();
                 }
                 if ((k - log) == 22)
-                    MessageBox.Show("Вы успешно прошли эту хуйню. Поздравляю.");
+                {
+                    MainBot mb = new MainBot();
+                    mb.Show();
+                    this.Close();
+                }
             }
         }   
         // Метод, который "переводит курсор на новую строчку".

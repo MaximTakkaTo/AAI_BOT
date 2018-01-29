@@ -11,22 +11,25 @@ namespace AAI_BOT
     {
         //buttons - текст для кнопок
 
-        public string[,] buttons = new string[3, 2] 
+        public string[,] buttons = new string[4, 2] 
         { 
-            {"Рады помочь!", "Да не за что!" },
+            {"Рады помочь!", "А кто тебя сломал?" },
+            {"","" },
             {"Да, давай, рассказывай!", "Нет, нам это не интересно"},
-            {"Да, давай, рассказывай!", "Нет, нам это не интересно"}
+            {"", ""}
         };
         //botMess - сообщения бота
-        public string[,] botMess = new string[3, 2] 
+        public string[,] botMess = new string[4, 2] 
         { 
             { "Спасибо, что починил меня, Пользователь!", "" },
+            { "Помню только нежные руки и тонкие пальцы.", "Чёрт. Я даже не запомнил.\nПомню только то, что кто - то тонкими пальцами нажимал клавиши на моей клавиатуре."},
             { "Тайна КПСС. Секреты Сталина и его преспешников. Хотите узнать больше?", "Тайна КПСС. Секреты Сталина и его преспешников. Хотите узнать больше?" },
             { "s", "s" }
         };
         //k - кол-во лейблов
         //l - нужно, чтобы сообщение от батонов сдвигалось нормально
-        int k = 0, l = 0, m = 0;
+        int k = 0, l = 0;
+        float m = 0;
 
         string source = @"Pictures/Stalin.png";//Картинка Сталина.
 
@@ -57,15 +60,15 @@ namespace AAI_BOT
             if (im)
             {
                 br.Background = new SolidColorBrush(Color.FromArgb(255, 136, 217, 230));
-                br.Margin = new Thickness(10, 35 * (k + l) + m, 10, 0);
+                br.Margin = new Thickness(10, 60 * (k + l + m) + 10, 10, 0);
                 br.HorizontalAlignment = HorizontalAlignment.Right;
             }
             else
             {
-                if (k == 1)
+                if (k == 2)
                     ShowImg();
                 br.Background = new SolidColorBrush(Color.FromArgb(255, 138, 161, 177));
-                br.Margin = new Thickness(10, 35 * (k + l + m) + 10, 10, 0);
+                br.Margin = new Thickness(10, 60 * (k + l + m) + 10, 10, 0);
                 br.HorizontalAlignment = HorizontalAlignment.Left;
                 Typing.Content = "Бот пишет";
                 Typing.Visibility = Visibility.Visible;
@@ -121,7 +124,7 @@ namespace AAI_BOT
         public void ShowImg()
         {
             Border bord = new Border();
-            bord.Margin = new Thickness(10, 35 * (k + l - 1) + 35, 0, 0);
+            bord.Margin = new Thickness(10, 65 * (k + l), 0, 0);
             bord.Padding = new Thickness(5, 5, 5, 5);
             bord.HorizontalAlignment = HorizontalAlignment.Left;
             bord.VerticalAlignment = VerticalAlignment.Top;
@@ -134,13 +137,12 @@ namespace AAI_BOT
             Image img = new Image();
             img.Source = new BitmapImage(new Uri(source, UriKind.Relative));
             bord.Child = img;
-            m = 200;
+            m = 4.1F;
         }
 
         async Task Pause(int time)
         {
             await Task.Delay(time);
         }
-
     }
 }
