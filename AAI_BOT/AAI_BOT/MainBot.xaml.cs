@@ -14,7 +14,7 @@ namespace AAI_BOT
         public string[,] buttons = new string[4, 2] 
         { 
             {"Рады помочь!", "А кто тебя сломал?" },
-            {"","" },
+            {"Мы могли бы найти его.","Спасибо за информацию." },
             {"Да, давай, рассказывай!", "Нет, нам это не интересно"},
             {"", ""}
         };
@@ -22,18 +22,20 @@ namespace AAI_BOT
         //botMess - сообщения бота
         public string[,] botMess = new string[4, 2] 
         { 
-            { "Спасибо, что починил меня, Пользователь!", "" },
-            { "Помню только нежные руки и тонкие пальцы.", "Чёрт. Я даже не запомнил.\nПомню только то, что кто - то тонкими пальцами нажимал клавиши на моей клавиатуре."},
-            { "Тайна КПСС. Секреты Сталина и его преспешников. Хотите узнать больше?", "Тайна КПСС. Секреты Сталина и его преспешников. Хотите узнать больше?" },
-            { "s", "s" }
+            { "Спасибо, что починил меня, пользователь!", "" },
+            { "Вы не знаете, кто бы мог это сделать?\nПомню только, как по клавиатуре неприятно царапало кольцо.", "Чёрт. Я даже не запомнил.\nПомню только то, что кто - то тонкими пальцами нажимал клавиши и неприянтно царапал кольцом по клавиатуре."},
+            { "https://www.!!#%@^KPSS.SSSR\n!!!!!!!!!!\nХОЧЕШЬ УЗНАТЬ БОЛЬШЕ О ТАЙНАХ ИСТОРИИ НАШЕГО ГОСУДАРСТВА??!!\nПРИХОДИТЕ НА ОТКРЫТИЕ МУЗЕЯ РЕВОЛЮЦИИ.\n•УМЕЛ ЛИ СТАЛИН ДРУЖИТЬ??!!\n•СКОЛЬКО ЛЮДЕЙ ПОГИБЛО В ГУЛАГе??!!\n•БЫЛА ЛИ КОРРУПЦИЯ В СТРАНЕ?", "https://www.!!#%@^KPSS.SSSR\n!!!!!!!!!!\nХОЧЕШЬ УЗНАТЬ БОЛЬШЕ О ТАЙНАХ ИСТОРИИ НАШЕГО ГОСУДАРСТВА??!!\nПРИХОДИТЕ НА ОТКРЫТИЕ МУЗЕЯ РЕВОЛЮЦИИ.\n•УМЕЛ ЛИ СТАЛИН ДРУЖИТЬ??!!\n•СКОЛЬКО ЛЮДЕЙ ПОГИБЛО В ГУЛАГе??!!\n•БЫЛА ЛИ КОРРУПЦИЯ В СТРАНЕ?" },
+            { "Одним из переломных моментов в истории был расстрел Молотова.\nОднако Сталин вскоре пожалел об этом.Он потерял незаменимый кадр.\nЭто была роковая ошибка.", "Ещё раз спаси...." }
         };
-
+        
         //k - кол-во лейблов
         //l - нужно, чтобы сообщение от батонов сдвигалось нормально
         int k = 0, l = 0;
-        float m = 0;
+        float m = 0, m1 = 0, m2 = 0, m3 = 0;
 
         string source = @"Pictures/Stalin.png";//Картинка Сталина.
+
+        
 
         public MainBot()
         {
@@ -89,24 +91,31 @@ namespace AAI_BOT
             br.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             if (im)
             {
-                sp1.Margin = new Thickness(0, 60 * (k + l + m) + lab.Margin.Top + br.DesiredSize.Height + 10, 18, 0);
+                sp1.Margin = new Thickness(0, 65 * (k + l + m + m1 + m2) + lab.Margin.Top + br.DesiredSize.Height + 10, 18, 0);
                 sp1.HorizontalAlignment = HorizontalAlignment.Right;
                 br.Background = new SolidColorBrush(Color.FromArgb(255, 138, 233, 248));
-                br.Margin = new Thickness(0, 60 * (k + l + m) + 10, 10 + 27, 0);
+                br.Margin = new Thickness(0, 65 * (k + l + m + m1 + m2) + 10, 10 + 27, 0);
                 br.HorizontalAlignment = HorizontalAlignment.Right;
             }
             else
             {
-                sp.Margin = new Thickness(18, 60 * (k + l + m) + lab.Margin.Top + br.DesiredSize.Height + 10, 0, 0);
+                sp.Margin = new Thickness(18, 65 * (k + l + m + m1 + m2) + lab.Margin.Top + br.DesiredSize.Height + 10, 0, 0);
+                
+                if(k == 1)
+                    m2 = 0.5F;
 
                 if (k == 2)
                 {
                     ShowImg();
-                    sp.Margin = new Thickness(18, 60 * (k + l + m) + lab.Margin.Top + br.DesiredSize.Height + 10, 0, 0);
+                    sp.Margin = new Thickness(18, 65 * (k + l + m) + lab.Margin.Top + br.DesiredSize.Height + 10, 0, 0);
+                    m1 = 2.4F;
                 }
-                    
+                
+                if(k == 3)
+                    m3 = 2.9F;
+                
                 br.Background = new SolidColorBrush(Color.FromArgb(255, 138, 161, 177));
-                br.Margin = new Thickness(10 + 27, 60 * (k + l + m) + 10, 10, 0);
+                br.Margin = new Thickness(10 + 27, 65 * (k + l + m + m3) + 10, 10, 0);
                 br.HorizontalAlignment = HorizontalAlignment.Left;
                 Typing.Content = "Бот пишет";
                 Typing.Visibility = Visibility.Visible;
@@ -128,6 +137,18 @@ namespace AAI_BOT
             la.Children.Add(sp1);
             br.Padding = new Thickness(5, 5, 5, 5);
             la.Children.Add(br);
+            if(k == 4)
+            {
+                First.Visibility = Visibility.Hidden;
+                Second.Visibility = Visibility.Hidden;
+                if (lab.Content.ToString() == "Одним из переломных моментов в истории был расстрел Молотова.\nОднако Сталин вскоре пожалел об этом.Он потерял незаменимый кадр.\nЭто была роковая ошибка.")
+                    await Pause(30000);
+                else
+                    await Pause(10000);
+                Console con = new Console();
+                con.Show();
+                this.Close();
+            }
         }       
 
         //нормальные ответы
@@ -163,7 +184,7 @@ namespace AAI_BOT
         public void ShowImg()
         {
             Border bord = new Border();
-            bord.Margin = new Thickness(37, 65 * (k + l), 0, 0);
+            bord.Margin = new Thickness(37, 65 * (k + l + m2), 0, 0);
             bord.Padding = new Thickness(5, 5, 5, 5);
             bord.HorizontalAlignment = HorizontalAlignment.Left;
             bord.VerticalAlignment = VerticalAlignment.Top;
@@ -180,7 +201,7 @@ namespace AAI_BOT
             pol.Points = polygonPoints;
             pol.Fill = new SolidColorBrush(Color.FromArgb(255, 138, 161, 177));
             sp.Children.Add(pol);
-            sp.Margin = new Thickness(18, 497, 0, 0);
+            sp.Margin = new Thickness(18, 497 + 32.3, 0, 0);
             la.Children.Add(sp);
 
             //размер / пишешь любую ширину, чтобы найти высоту, то ширину умножаешь на 1,398907103825137 (можешь округлить до целого)
